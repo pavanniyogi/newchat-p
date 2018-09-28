@@ -5,41 +5,21 @@ var app = express();
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-
 // make express look in the public directory for assets (css/js/img)
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname));
 
 // set the home page route
 app.get('/', function(req, res) {
     
     var request = require('request');
-    var opn = require('opn');
-    var token = "xoxp-442873755396-443061927298-444145097904-180ea4fed0773f1c7f8584ac64e041ee";
-    var channelId = "CD2CAFPU6";
+    var token = "xoxp-446020882759-444784640004-444971729970-9618b8899d40daefe17b4f56db8a94dc";
+    var channelId = "CD49MBF7Y";
     var getUrl = "https://slack.com/api/files.list?token="+token+"&channel="+channelId+"&types=images";
-
-    function actualHttpGet(url) {
-      return new Promise(resolve => {
-          request(url, { json: true }, (err, res, body) => {
-            if (err) { return console.log(err); }
-            console.log(body.files[body.files.length-1].permalink_public);  
-            var link = body.files[body.files.length-1].permalink_public;
-            opn(link);  
-            console.log("popped");    
-        });
-      });
-    }
-
-    async function httpGet(url){
-        const imageUrl = await actualHttpGet(url);
-        return imageUrl;
-    }
-
-    httpGet(getUrl).then((returnCode) => {
-        console.log(returnCode);
-    });    
+    
+    request(getUrl, { json: true }, (error, result, body) => {
+        if (error) { return console.log(error); }
+        res.redirect(body.files[0].permalink_public);        
+    });
 });
 
 app.listen(port, function() {
