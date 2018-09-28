@@ -12,7 +12,7 @@ app.use(express.static(__dirname));
 app.get('/', function(req, res) {
     
     var request = require('request');
-    var token = "xoxp-446020882759-444784640004-444971729970-9618b8899d40daefe17b4f56db8a94dc";
+    var token = "xoxp-446020882759-444784640004-446345628710-4cfb37211b57380222848e3ff4a42525";
     var channelId = "CD49MBF7Y";
     var getUrl = "https://slack.com/api/files.list?token="+token+"&channel="+channelId+"&types=images";
     
